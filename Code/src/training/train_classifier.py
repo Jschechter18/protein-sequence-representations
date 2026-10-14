@@ -61,6 +61,7 @@ from Code.src.models.classifier import (
     CANONICAL_EMBEDDING_TYPES,
     CachedEmbeddingClassifier,
     ProteinSequenceClassifier,
+    esm2_embedding_dim,
     normalize_embedding_type,
 )
 from Code.src.training.classification_pipeline import (
@@ -1251,13 +1252,14 @@ def create_model(
         else use_cached_embeddings
     )
     if use_cached_embeddings:
+        esm_dim = esm2_embedding_dim(config.esm_model_name)
         embedding_dim = (
             config.autoencoder_latent_dim
             if config.representation in {"random_autoencoder", "trained_autoencoder"}
-            else 320
+            else esm_dim
         )
         if config.representation == "trained_autoencoder+esm2":
-            embedding_dim = config.autoencoder_latent_dim + 320
+            embedding_dim = config.autoencoder_latent_dim + esm_dim
         return CachedEmbeddingClassifier(
             embedding_type=config.representation,
             embedding_dim=embedding_dim,

@@ -24,6 +24,17 @@ EMBEDDING_TYPE_ALIASES = {
     "autoencoder+esm2": "trained_autoencoder+esm2",
 }
 
+ESM2_MODEL_SPECS = {
+    "esm2_t6_8M_UR50D": {"embedding_dim": 320, "num_layers": 6},
+    "esm2_t30_150M_UR50D": {"embedding_dim": 640, "num_layers": 30},
+    "esm2_t33_650M_UR50D": {"embedding_dim": 1280, "num_layers": 33},
+}
+
+
+def esm2_embedding_dim(model_name: str) -> int:
+    if model_name not in ESM2_MODEL_SPECS:
+        raise ValueError(f"Unsupported ESM model name: {model_name}")
+    return ESM2_MODEL_SPECS[model_name]["embedding_dim"]
 
 def normalize_embedding_type(embedding_type: str) -> str:
     """Return the canonical name for a supported representation."""
@@ -161,8 +172,12 @@ class ESM2Embedding(nn.Module):
         esm_max_sequence_length: int = 1022,
     ):
         super().__init__()
-        if model_name != "esm2_t6_8M_UR50D":
-            raise ValueError(f"Unsupported ESM model name: {model_name}")
+        # if model_name != "esm2_t6_8M_UR50D":
+        #     raise ValueError(f"Unsupported ESM model name: {model_name}")
+
+        output_dim = esm2_embedding_dim(model_name)
+        repr_layer = ESM2_MODEL_SPECS[model_name]["num_layers"]
+
         if (
             not isinstance(esm_max_sequence_length, int)
             or isinstance(esm_max_sequence_length, bool)
@@ -173,17 +188,15 @@ class ESM2Embedding(nn.Module):
         pretrained = getattr(esm, "pretrained", None) if esm is not None else None
         model_loader = getattr(pretrained, model_name, None)
         if model_loader is None:
-            raise ImportError(
-                "Fair-ESM is required for ESM-2 representations, but the imported "
-                "'esm' package does not expose esm.pretrained.esm2_t6_8M_UR50D. "
-                "Remove the incompatible 'esm' package and install fair-esm==2.0.0."
-            )
+            raise ImportError(f"'esm' package does not expose esm.pretrained.{model_name}. ")
 
         self.device = device
         self.model_name = model_name
         self.esm_max_sequence_length = esm_max_sequence_length
-        self.output_dim = 320
-        self.repr_layer = 6
+        # self.output_dim = 320
+        # self.repr_layer = 6
+        self.output_dim = output_dim
+        self.repr_layer = repr_layer
         self.is_frozen = False
         self.model, self.alphabet = model_loader()
         self.model = self.model.to(self.device)

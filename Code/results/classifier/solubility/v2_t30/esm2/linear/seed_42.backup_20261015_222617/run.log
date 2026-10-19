@@ -1,0 +1,41 @@
+2026-10-14 20:06:03,977 ERROR __main__: Run failed: Code/results/classifier/solubility/v2_t30/esm2/linear/seed_42
+Traceback (most recent call last):
+  File "/home/ubuntu/protein-sequence-representations/Code/src/training/train_classifier.py", line 1456, in run_one
+    train_loader, val_loader, test_loader = create_run_dataloaders(config)
+                                            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/ubuntu/protein-sequence-representations/Code/src/training/train_classifier.py", line 1236, in create_run_dataloaders
+    return _create_run_dataloaders_impl(
+        config,
+        ensure_caches=_ensure_embedding_caches,
+        sequence_dataloader=_create_sequence_dataloader,
+    )
+  File "/home/ubuntu/protein-sequence-representations/Code/src/utils/embedding_cache.py", line 310, in create_run_dataloaders
+    payloads = ensure_caches(config, splits)
+  File "/home/ubuntu/protein-sequence-representations/Code/src/training/train_classifier.py", line 1226, in _ensure_embedding_caches
+    return _ensure_embedding_caches_impl(
+        config,
+    ...<3 lines>...
+        model_factory=create_model,
+    )
+  File "/home/ubuntu/protein-sequence-representations/Code/src/utils/embedding_cache.py", line 268, in ensure_embedding_caches
+    encoder_model = model_factory(config, use_cached_embeddings=False)
+  File "/home/ubuntu/protein-sequence-representations/Code/src/training/train_classifier.py", line 1270, in create_model
+    return ProteinSequenceClassifier(
+        embedding_type=config.representation,
+    ...<18 lines>...
+        device=config.device,
+    )
+  File "/home/ubuntu/protein-sequence-representations/Code/src/models/classifier.py", line 603, in __init__
+    self.embedded_representation = ESM2Embedding(
+                                   ~~~~~~~~~~~~~^
+        model_name=esm_model_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        device=self.device,
+        ^^^^^^^^^^^^^^^^^^^
+        esm_max_sequence_length=esm_max_sequence_length,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).to(self.device)
+    ^
+  File "/home/ubuntu/protein-sequence-representations/Code/src/models/classifier.py", line 165, in __init__
+    raise ValueError(f"Unsupported ESM model name: {model_name}")
+ValueError: Unsupported ESM model name: esm2_t30_150M_UR50D

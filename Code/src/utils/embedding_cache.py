@@ -209,8 +209,10 @@ def build_embedding_cache(
     with torch.inference_mode():
         for batch in loader:
             embeddings.append(model.encode(batch).detach().cpu())
-            labels.append(batch["label"].detach().cpu().long().reshape(-1))
-            lengths.append(batch["length"].detach().cpu().long().reshape(-1))
+            # labels.append(batch["label"].detach().cpu().long().reshape(-1))
+            # lengths.append(batch["length"].detach().cpu().long().reshape(-1))
+            labels.append(batch["label"].detach().cpu().long().reshape(-1).clone())
+            lengths.append(batch["length"].detach().cpu().long().reshape(-1).clone())
             sequences.extend(str(value) for value in batch["sequence"])
             sample_ids.extend(list(batch["sample_id"]))
     if not embeddings:

@@ -1,0 +1,2 @@
+2026-10-20 13:00:04,392 INFO Code.src.models.classifier: Using ESM-2 encoder on cpu
+2026-10-20 21:02:34,243 INFO Code.src.utils.embedding_cache: Saved frozen embeddings: /home/ubuntu/protein-sequence-representations/data/processed/embeddings/solubility/esm2/shared/train_7afe0ee522e23992.pt

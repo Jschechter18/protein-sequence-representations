@@ -17,7 +17,7 @@
     "checkpoint_root": "/home/ubuntu/protein-sequence-representations/checkpoints/classifier",
     "cnn_embedding_dim": 128,
     "cnn_num_filters": 128,
-    "configuration_fingerprint": "d032236e9739aadd6c6e628588fce8f53b94e777b3f9a54e1b261c6ab8042f24",
+    "configuration_fingerprint": "f9c78f78ed1f9fc0a5fea73f02be286d58142959bc80164c39a2093cf3e71526",
     "data_dir": "data/processed/peer",
     "data_sources": {
       "test": {
@@ -57,7 +57,7 @@
     "evaluate_test": false,
     "freeze_autoencoder": true,
     "freeze_esm2": false,
-    "git_commit": "76715a984491cb4798746349a1e413aa4e18a568",
+    "git_commit": "c42f772b0a0e59ca1063de5ef73905a57ce8a28f",
     "git_dirty": true,
     "head_type": "linear",
     "learning_rate": 0.0001,
@@ -83,7 +83,7 @@
     },
     "representation": "esm2",
     "results_dir": "Code/results/classifier",
-    "resume_fingerprint": "6949b420a930d0787150a4fdc7f564fb92c02066837d20b56d335645bfb35c26",
+    "resume_fingerprint": "8426dda78e8511842fcd2745037e1b99aa219e100c22fb114f8056879c32b1b3",
     "run_dir": "Code/results/classifier/solubility/v2_t6/unfrozen/tuning/linear/esm2/lr_1e-4_wd_1e-4_ae_do_0_esm_do_0.1_seed_42",
     "runtime": {
       "packages": {
@@ -110,7 +110,7 @@
       "Code/src/utils/experiment_artifacts.py": "0acf2e83e2114f65680fa1429d88559b906fcbc4539cdda3b59bcda7ca3be715",
       "Code/src/utils/sequence_dataset.py": "40f450bebdbfd39fe9132ce82aaf1015e4f70b4f03009c341e18b9d83da5513c"
     },
-    "started_at": "2026-10-22T02:14:35.090775+00:00",
+    "started_at": "2026-10-22T23:33:28.244264+00:00",
     "unfreeze_all_esm": false,
     "unfreeze_esm": false,
     "unfreeze_layers": 0,

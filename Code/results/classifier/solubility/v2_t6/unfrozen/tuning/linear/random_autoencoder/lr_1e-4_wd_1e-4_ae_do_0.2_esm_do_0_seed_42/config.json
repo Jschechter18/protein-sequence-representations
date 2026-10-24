@@ -14,7 +14,7 @@
   "cache_embeddings": false,
   "checkpoint_dir": "/home/ubuntu/protein-sequence-representations/checkpoints/classifier/solubility/v2_t6/unfrozen/tuning/linear/random_autoencoder/lr_1e-4_wd_1e-4_ae_do_0.2_esm_do_0_seed_42",
   "checkpoint_root": "/home/ubuntu/protein-sequence-representations/checkpoints/classifier",
-  "configuration_fingerprint": "fc4e3bbe4deaebca5942279168e31009774daea0e2e0b75108e9dac33350a3bb",
+  "configuration_fingerprint": "83c71b01748c3d527dce79b5c13dc4f768d716e9a5dbea03c1b44d7fabecbb94",
   "data_dir": "data/processed/peer",
   "data_sources": {
     "test": {
@@ -53,7 +53,7 @@
   "evaluate_test": false,
   "freeze_autoencoder": false,
   "freeze_esm2": true,
-  "git_commit": "76715a984491cb4798746349a1e413aa4e18a568",
+  "git_commit": "c42f772b0a0e59ca1063de5ef73905a57ce8a28f",
   "git_dirty": true,
   "head_type": "linear",
   "learning_rate": 0.0001,
@@ -78,7 +78,7 @@
   },
   "representation": "random_autoencoder",
   "results_dir": "Code/results/classifier",
-  "resume_fingerprint": "b9bb95a811e4512fe0390281f2add59a94b8e539b46e5de0a7a415ca3d882743",
+  "resume_fingerprint": "fdff18b62dcf47857eab1cffec7269a3ae915c6215ccd55f18dfcf0803773d96",
   "run_dir": "Code/results/classifier/solubility/v2_t6/unfrozen/tuning/linear/random_autoencoder/lr_1e-4_wd_1e-4_ae_do_0.2_esm_do_0_seed_42",
   "runtime": {
     "packages": {
@@ -105,7 +105,7 @@
     "Code/src/utils/experiment_artifacts.py": "0acf2e83e2114f65680fa1429d88559b906fcbc4539cdda3b59bcda7ca3be715",
     "Code/src/utils/sequence_dataset.py": "40f450bebdbfd39fe9132ce82aaf1015e4f70b4f03009c341e18b9d83da5513c"
   },
-  "started_at": "2026-10-21T20:02:27.618318+00:00",
+  "started_at": "2026-10-22T16:15:12.746678+00:00",
   "unfreeze_all_esm": false,
   "unfreeze_esm": false,
   "unfreeze_layers": 0,

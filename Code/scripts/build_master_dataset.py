@@ -15,7 +15,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 PROCESSED = REPO_ROOT / "data" / "processed"
 SOURCES = {
     "solubility": PROCESSED / "peer" / "solubility",
-    "localization": PROCESSED / "peer_dedup" / "localization",
+    "localization": PROCESSED / "peer" / "localization",
     "fold": PROCESSED / "peer" / "fold",
 }
 OUTPUT_DIR = PROCESSED / "peer" / "master"

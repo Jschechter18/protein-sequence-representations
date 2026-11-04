@@ -414,7 +414,7 @@ def make_overfit_dataloaders(
 
 
 def create_dataloader(
-    task: str = "solubility",
+    task: str = "hold",
     split: str = "train",
     data_dir: str | Path = DATA_DIR,
     mode: str = "classification",

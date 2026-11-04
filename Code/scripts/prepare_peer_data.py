@@ -60,6 +60,23 @@ DATASETS = {
         "target_field": "solubility",
         "output_dir": PROCESSED_ROOT / "solubility",
     },
+        "fold": {
+        "peer_dataset_class": "Fold",
+        "peer_config": PEER_REPO / "config" / "single_task" / "BERT" / "fold_BERT.yaml",
+        "url": "http://s3.amazonaws.com/songlabdata/proteindata/data_pytorch/remote_homology.tar.gz",
+        "md5": "1d687bdeb9e3866f77504d6079eed00a",
+        "archive_name": "remote_homology.tar.gz",
+        "task_dir": "remote_homology",
+        "split_basename": "remote_homology",
+        "target_field": "fold_label",
+        "output_dir": PROCESSED_ROOT / "fold",
+        # Fold has no plain "test" split; PEER evaluates on the fold-level holdout.
+        "source_splits": {
+            "train": "train",
+            "valid": "valid",
+            "test": "test_fold_holdout",
+        },
+    },
 }
 
 SPLITS = ("train", "valid", "test")
@@ -202,10 +219,11 @@ def discover_split_lmdbs(config: dict) -> dict:
     dict
         _description_
     """
-    
+
     split_paths = {}
+    source_splits = config.get("source_splits", {split: split for split in SPLITS})
     for split in SPLITS:
-        basename = f"{config['split_basename']}_{split}.lmdb"
+        basename = f"{config['split_basename']}_{source_splits[split]}.lmdb"
         expected = EXTRACT_ROOT / config["task_dir"] / basename
         if expected.exists():
             split_paths[split] = expected
@@ -215,6 +233,24 @@ def discover_split_lmdbs(config: dict) -> dict:
         split_paths[split] = matches[0] if matches else None
     return split_paths
 
+def remove_cross_split_duplicates(rows_by_split: dict) -> tuple[dict, dict]:
+    """Drop train/valid rows whose sequence also appears in another split.
+
+    The test split is never changed, so results stay comparable with the
+    published benchmark. Train loses sequences found in test; valid loses
+    sequences found in train or test.
+    """
+    def key(row):
+        return row["sequence"].upper()
+
+    test_seqs = {key(row) for row in rows_by_split["test"]}
+    train = [row for row in rows_by_split["train"] if key(row) not in test_seqs]
+    blocked = test_seqs | {key(row) for row in train}
+    valid = [row for row in rows_by_split["valid"] if key(row) not in blocked]
+
+    cleaned = {"train": train, "valid": valid, "test": rows_by_split["test"]}
+    removed = {split: len(rows_by_split[split]) - len(cleaned[split]) for split in SPLITS}
+    return cleaned, removed
 
 def export_dataset(dataset_name: str, config: dict, lmdb_paths: dict) -> dict:
     """Export all official splits for one dataset and build metadata summary.
@@ -239,9 +275,17 @@ def export_dataset(dataset_name: str, config: dict, lmdb_paths: dict) -> dict:
     split_sizes = {}
     label_counts = {}
 
+    # Load every split first so duplicates across splits can be removed.
+    rows_by_split = {
+        split: load_split_rows(dataset_name, split, lmdb_paths[split], config["target_field"])
+        for split in SPLITS
+    }
+    rows_by_split, removed = remove_cross_split_duplicates(rows_by_split)
+
     for split in SPLITS:
-        # Parse official records, normalize schema, and enforce quality checks.
-        rows = load_split_rows(dataset_name, split, lmdb_paths[split], config["target_field"])
+        rows = rows_by_split[split]
+        if removed[split]:
+            print(f"[PEER] {dataset_name} {split}: removed {removed[split]} sequences duplicated in another split")
         validate_rows(dataset_name, split, rows)
         csv_path = output_dir / f"{split}.csv"
         write_csv(csv_path, rows)
@@ -260,6 +304,7 @@ def export_dataset(dataset_name: str, config: dict, lmdb_paths: dict) -> dict:
         "source_config": str(config["peer_config"]),
         "source_url": config["url"],
         "split_sizes": split_sizes,
+        "removed_cross_split_duplicates": removed,
         "label_counts_per_split": label_counts,
         "raw_lmdb_paths": {split: str(path) for split, path in lmdb_paths.items()},
     }

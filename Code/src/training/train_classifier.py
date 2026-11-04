@@ -380,7 +380,7 @@ class ClassifierRunConfig:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train protein sequence classifiers")
-    parser.add_argument("--dataset", default="solubility", choices=["solubility", "localization"])
+    parser.add_argument("--dataset", default="solubility", choices=["solubility", "localization", "fold"])
     parser.add_argument("--data_dir", default="data/processed/peer")
     parser.add_argument("--results_dir", default="Code/results/classifier")
     parser.add_argument(
@@ -752,7 +752,7 @@ def _make_run_config(
     early_stopping_patience: int | None = None,
     representation_learning_rate_value: float | None = None,
 ) -> ClassifierRunConfig:
-    num_classes = args.num_classes or (10 if args.dataset == "localization" else 2)
+    num_classes = args.num_classes or {"localization": 10, "fold": 1195}.get(args.dataset, 2)
     pin_memory = args.pin_memory if args.pin_memory is not None else device == "cuda"
     persistent_workers = bool(args.persistent_workers and args.num_workers > 0)
     train_all_encoders = bool(

@@ -60,7 +60,7 @@ DATASETS = {
         "target_field": "solubility",
         "output_dir": PROCESSED_ROOT / "solubility",
     },
-        "fold": {
+    "fold": {
         "peer_dataset_class": "Fold",
         "peer_config": PEER_REPO / "config" / "single_task" / "BERT" / "fold_BERT.yaml",
         "url": "http://s3.amazonaws.com/songlabdata/proteindata/data_pytorch/remote_homology.tar.gz",

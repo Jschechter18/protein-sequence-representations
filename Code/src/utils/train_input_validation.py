@@ -308,9 +308,9 @@ def _add_args(args: argparse.ArgumentParser) -> argparse.Namespace:
 
 def add_and_validate_train_inputs():
     args = _add_args(argparse.ArgumentParser())
-    
-    if args.task != "localization" and args.task != "solubility":
-        raise ValueError("Task only accepts 'localization' or 'solubility'")
+
+    if args.task not in {"localization", "solubility", "fold", "master"}:
+        raise ValueError("Task must be one of: localization, solubility, fold, master")
     
     if args.model.upper() == "AE":
         hyperparams = AEParams()

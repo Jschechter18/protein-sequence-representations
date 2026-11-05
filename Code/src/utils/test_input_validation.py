@@ -27,7 +27,7 @@ def _str_to_bool(value: str | bool) -> bool:
 
 def _add_args(args: argparse.ArgumentParser) -> argparse.Namespace:
     args.add_argument("--model", type=str, default="AE", choices=["AE", "ae"], help="Model to test.")
-    args.add_argument("--task", type=str, default="solubility", choices=["localization", "solubility"], help="Task to test.")
+    args.add_argument("--task", type=str, default="solubility", choices=["localization", "solubility", "fold", "master"], help="Task to test.")
     args.add_argument(
         "--checkpoint",
         type=str,

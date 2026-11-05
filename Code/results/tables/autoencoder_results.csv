@@ -73,3 +73,4 @@ v24,checkpoints/autoencoder/solubility/v24/model_ae_length_3_of_3_solubility_lst
 v25,checkpoints/autoencoder/solubility/v25/model_ae_length_3_of_3_solubility_lstm.pt,1.361411,4.447511,0.512692,0.151795
 v26,checkpoints/autoencoder/solubility/v26/model_ae_length_3_of_3_solubility_lstm.pt,1.191468,5.262014,0.569016,0.166454
 v27,checkpoints/autoencoder/solubility/v27/model_ae_length_3_of_3_solubility.pt,0.733915,4.013212,0.723683,0.336992
+v0,/home/ubuntu/protein-sequence-representations/checkpoints/autoencoder/master/v0/model_ae_length_3_of_3_master.pt,1.094068,3.625159,0.594818,0.245442

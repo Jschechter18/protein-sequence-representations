@@ -9,7 +9,7 @@ script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 repo_root=$(cd "${script_dir}/../.." && pwd)
 
 # Local destination, relative to repo root
-DEST_DIR="${repo_root}/checkpoints/autoencoder/solubility"
+DEST_DIR="${repo_root}/checkpoints/autoencoder"
 
 mkdir -p "$DEST_DIR"
 
